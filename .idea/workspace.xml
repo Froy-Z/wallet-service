@@ -143,7 +143,7 @@
       <recent name="ru.ylab.factories" />
     </key>
   </component>
-  <component name="RunManager" selected="JAR Application.wallet-service-1.0-SNAPSHOT.jar">
+  <component name="RunManager" selected="Gradle.wallet-service [jar]">
     <configuration name="wallet-service [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -207,7 +207,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="wallet-service [test]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="wallet-service [testClasses]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -218,7 +218,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="test" />
+            <option value="testClasses" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -234,11 +234,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.wallet-service [jar]" />
+        <item itemvalue="Gradle.wallet-service [testClasses]" />
         <item itemvalue="JAR Application.wallet-service-1.0-SNAPSHOT.jar" />
         <item itemvalue="Gradle.wallet-service [build]" />
-        <item itemvalue="Gradle.wallet-service [jar]" />
         <item itemvalue="Gradle.wallet-service [dependencies]" />
-        <item itemvalue="Gradle.wallet-service [test]" />
       </list>
     </recent_temporary>
   </component>
