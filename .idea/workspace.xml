@@ -5,42 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c1dea7d2-013f-4380-807e-668e0952afdf" name="Changes" comment="Выполнение задачи №1">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/exceptions/DeauthorisationException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/exceptions/InsufficientFundsException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/exceptions/InvalidCredentialException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/exceptions/NotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/exceptions/NullPointerException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/in/ConsoleInputHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/in/factories/AccountFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/in/factories/PlayerFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/in/factories/TransactionFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/interfaces/IAccount.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/interfaces/ILogging.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/interfaces/IPlayer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/interfaces/ITransaction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/models/Account.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/models/Logging.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/models/Player.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/models/Transaction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/out/emptyFile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/services/AccountService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/services/LoggingService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/services/PlayerService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/services/TransactionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/thisEmpty" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,6 +59,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -143,7 +113,7 @@
       <recent name="ru.ylab.factories" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.wallet-service [jar]">
+  <component name="RunManager" selected="JAR Application.wallet-service-1.0-SNAPSHOT.jar">
     <configuration name="wallet-service [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -234,10 +204,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.wallet-service [jar]" />
-        <item itemvalue="Gradle.wallet-service [testClasses]" />
         <item itemvalue="JAR Application.wallet-service-1.0-SNAPSHOT.jar" />
         <item itemvalue="Gradle.wallet-service [build]" />
+        <item itemvalue="Gradle.wallet-service [jar]" />
+        <item itemvalue="Gradle.wallet-service [testClasses]" />
         <item itemvalue="Gradle.wallet-service [dependencies]" />
       </list>
     </recent_temporary>
@@ -260,8 +230,23 @@
       <workItem from="1696870424127" duration="7077000" />
       <workItem from="1696940880502" duration="19263000" />
       <workItem from="1696963623941" duration="5356000" />
-      <workItem from="1696968985467" duration="38956000" />
+      <workItem from="1696968985467" duration="39260000" />
     </task>
+    <task id="LOCAL-00001" summary="Выполнение задачи №1">
+      <created>1697012180749</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1697012180749</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Выполнение задачи №1">
+      <created>1697012323448</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1697012323448</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
