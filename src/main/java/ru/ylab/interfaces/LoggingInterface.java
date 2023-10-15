@@ -5,6 +5,6 @@ import ru.ylab.models.Player;
 
 import java.util.List;
 
-public interface ILogging {
+public interface LoggingInterface {
     void printLogs(List<Logging> loggingList, Player player);
 }

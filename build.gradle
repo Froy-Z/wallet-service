@@ -2,6 +2,12 @@ plugins {
     id 'java'
 }
 
+ext {
+    lombokVersion = '1.18.22'
+    junitVersion = '5.8.1'
+    jdbcVersion = '42.6.0'
+}
+
 group 'ru.ylab'
 version '1.0-SNAPSHOT'
 
@@ -10,9 +16,10 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.projectlombok:lombok:1.18.22'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation "org.projectlombok:lombok:${lombokVersion}"
+    implementation group: 'org.postgresql', name: 'postgresql', version: "${jdbcVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
 }
 
 jar {

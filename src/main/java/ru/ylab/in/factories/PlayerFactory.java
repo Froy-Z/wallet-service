@@ -14,10 +14,9 @@ public class PlayerFactory {
      * @param login      логин ведённый пользователем
      * @param password   - пароль ведённый пользователем
      */
-    public void makePlayer(List<Player> playerList, String login, String password) {
+    public Player makePlayer(List<Player> playerList, String login, String password) {
         Long playerId = generatePlayerId(playerList);
-        Player player = new Player(playerId, login, password);
-        playerList.add(player);
+        return new Player(playerId, login, password);
     }
 
     /**
@@ -29,7 +28,6 @@ public class PlayerFactory {
      * @throws InvalidCredentialException пробрасывание ошибки, если такой логин уже существует
      */
     public void addCredentials(Map<String, String> credentials, String login, String password) throws InvalidCredentialException {
-
         if (!credentials.containsKey(login)) {
             credentials.put(login, password);
         } else {

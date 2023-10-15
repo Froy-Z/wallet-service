@@ -16,17 +16,12 @@ public class ConsoleInputHandler {
             try {
                 System.out.println("Ввод: ");
                 String input = bufferedReader.readLine();
-
                 if (input != null && !input.trim().isEmpty()) {
-
                     return input;
-
                 } else {
-
                     System.out.println("Ошибка: введённые данные не могут быть пустыми!");
                 }
             } catch (IOException e) {
-
                 System.out.println("Ошибка ввода: " + e.getMessage());
             }
         }
@@ -40,30 +35,22 @@ public class ConsoleInputHandler {
      */
 
     public static double doubleUserInput(BufferedReader bufferedReader) {
-
         Double input = 0.0;
         boolean validInput = false;
-
         while (!validInput) {
             try {
                 System.out.println("Ввод: ");
                 input = Double.parseDouble(bufferedReader.readLine().trim());
                 validInput = true;
-
                 if (!input.isNaN()) {
-
                     return input;
-
                 } else {
-
                     System.out.println("Ошибка: введённые данные не могут быть пустыми!");
                 }
-
             } catch (NumberFormatException | IOException e) {
                 System.out.println("Ошибка ввода. Пожалуйста, введите корректное число");
             }
         }
-
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
         String formattedInput = decimalFormat.format(input);
         return Double.parseDouble(formattedInput);

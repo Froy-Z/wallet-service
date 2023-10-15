@@ -11,18 +11,17 @@ public class AccountFactory {
      * Создание кошелька игроку
      * @param accountList коллекция кошельков всех игроков
      * @param player игрок для создания кошелька
+     * @return новый объект Account
      */
-    public void makeAccount(List<Account> accountList, Player player) {
-
+    public Account makeAccount(List<Account> accountList, Player player) {
+        Account account;
         if (!accountList.isEmpty()) {
-
             int sizeList = accountList.size();
             Long lastPlayerId = accountList.get(sizeList - 1).getPlayerId() + 1L;
-            accountList.add(new Account(sizeList + 1L, lastPlayerId));
-
-            System.out.println("Успешно создан кошелёк!");
+            account = new Account(sizeList + 1L, lastPlayerId);
+        } else {
+            account = new Account(1L, player.getId());
         }
-
-        accountList.add(new Account(1L, player.getId()));
+        return account;
     }
 }

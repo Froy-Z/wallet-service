@@ -4,7 +4,7 @@ import ru.ylab.exceptions.InsufficientFundsException;
 import ru.ylab.exceptions.NotFoundException;
 import ru.ylab.exceptions.NullPointerException;
 import ru.ylab.in.factories.TransactionFactory;
-import ru.ylab.interfaces.IAccount;
+import ru.ylab.interfaces.AccountInterface;
 import ru.ylab.models.Account;
 import ru.ylab.models.Logging;
 import ru.ylab.models.Player;
@@ -12,7 +12,7 @@ import ru.ylab.models.Transaction;
 
 import java.util.List;
 
-public class AccountService implements IAccount {
+public class AccountService implements AccountInterface {
 
     /**
      * Печать в консоль текущий баланс игрока
@@ -40,24 +40,16 @@ public class AccountService implements IAccount {
                                         Player player, Long accountId, double amount) throws InsufficientFundsException, NullPointerException {
 
         Account account = checkAccount(accountList, accountId);
-
         Long playerId = player.getId();
-
         TransactionFactory transactionFactory = new TransactionFactory();
-
         if (account.getBalance() >= amount) {
-
             transactionFactory.makeTransactionAndSave(transactionList, player, amount, Logging.TypeOperation.SUCCES_DEBIT);
             account.setBalance(account.getBalance() - amount);
             logList.add(new Logging(playerId, Logging.TypeOperation.SUCCES_DEBIT));
-
             System.out.printf("Списано со счёта %.2f y.e. \n", amount);
         } else {
-
             transactionFactory.makeTransactionAndSave(transactionList, player, amount, Logging.TypeOperation.FAIL_DEBIT);
             logList.add(new Logging(playerId, Logging.TypeOperation.FAIL_DEBIT));
-
-
             throw new InsufficientFundsException(
                     String.format(
                             "Недостаточно средств. Уменьшите запрашиваемую сумму минимум на %.2f y.e. \n",
@@ -80,24 +72,17 @@ public class AccountService implements IAccount {
                                          Player player, Long accountId, double amount) throws UnknownError {
 
         Account account = checkAccount(accountList, accountId);
-
         Long playerId = player.getId();
         TransactionFactory transactionFactory = new TransactionFactory();
-
         try {
-
-
             /*
              * создание уникальной транзакции и лога для исполнения операции и добавление в историю
              */
             transactionFactory.makeTransactionAndSave(transactionList, player, amount, Logging.TypeOperation.SUCCES_CREDIT);
             account.setBalance(account.getBalance() + amount); // изменение баланса
             logList.add(new Logging(playerId, Logging.TypeOperation.SUCCES_CREDIT));
-
             System.out.printf("Пополнение счёта на %.2f y.e. \n", amount);
-
         } catch (UnknownError e) {
-
             /*
              * создание уникальной транзакции и лога для исполнения операции и добавление в историю в случае исключения
              */
@@ -130,7 +115,6 @@ public class AccountService implements IAccount {
      * @param accountId ID игрока
      * @return кошелёк игрока
      */
-
     private Account checkAccount(List<Account> accountList, Long accountId) {
         try {
             return accountList

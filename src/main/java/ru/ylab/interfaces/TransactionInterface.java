@@ -5,6 +5,6 @@ import ru.ylab.models.Transaction;
 
 import java.util.List;
 
-public interface ITransaction {
+public interface TransactionInterface {
     void printTransaction(List<Transaction> transactionList, Player player);
 }

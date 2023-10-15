@@ -22,8 +22,9 @@ public class Logging {
         SUCCES_CREDIT,
         FAIL_CREDIT,
         SUCCES_DEAUTH,
-        FAIL_DEAUTH
-
+        FAIL_DEAUTH,
+        VIEW_AUDIT_SUCCES,
+        VIEW_AUDIT_FAIL
     }
 
     public Long getPlayerId() {
@@ -32,7 +33,6 @@ public class Logging {
     public LocalDateTime getExecutionTime() {
         return executionTime;
     }
-
     public TypeOperation getType() {
         return type;
     }

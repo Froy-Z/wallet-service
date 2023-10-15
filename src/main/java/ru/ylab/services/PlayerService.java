@@ -2,15 +2,13 @@ package ru.ylab.services;
 
 import ru.ylab.exceptions.DeauthorisationException;
 import ru.ylab.exceptions.InvalidCredentialException;
-import ru.ylab.interfaces.IPlayer;
+import ru.ylab.interfaces.PlayerInterface;
 import ru.ylab.models.Logging;
 import ru.ylab.models.Player;
 
 import java.util.List;
 import java.util.Map;
-
-
-public class PlayerService implements IPlayer {
+public class PlayerService implements PlayerInterface {
 
     /**
      *  Поиск уже существующих игроков по логину, запись в переменную player
@@ -41,19 +39,20 @@ public class PlayerService implements IPlayer {
      * @param player      игрок, с которым будет вестись взаимодействие
      * @param login       логин введённый игроком
      * @param password    - пароль введённый игроком
+     * @return лог выполнения
      * @throws InvalidCredentialException неверный логин или пароль
      */
     @Override
-    public void authorisationPlayer(Map<String, String> credentials, List<Logging> loggingList,
-                                    Player player, String login, String password) throws InvalidCredentialException {
+    public Logging authorisationPlayer(Map<String, String> credentials, List<Logging> loggingList,
+                                       Player player, String login, String password) throws InvalidCredentialException {
 
         Long playerId = player.getId();
-
+        Logging logging;
         if (credentials.containsKey(login)) {
             if (credentials.get(login).equals(password)) {
-                loggingList.add(new Logging(playerId, Logging.TypeOperation.SUCCES_AUTH));
-
+                logging = new Logging(playerId, Logging.TypeOperation.SUCCES_AUTH);
                 System.out.println("Успешная авторизация. \n");
+                return logging;
             } else {
                 loggingList.add(new Logging(playerId, Logging.TypeOperation.FAIL_AUTH));
                 throw new InvalidCredentialException("Неверный пароль, попробуйте еще раз.");
@@ -69,23 +68,21 @@ public class PlayerService implements IPlayer {
      *
      * @param loggingList коллекция истории действий игроков для записи
      * @param player      игрок для деавторизации
+     * @return лог выполнения
      * @throws DeauthorisationException неизвестная ошибка при деавторизации, принудительная деавторизация
      */
     @Override
-    public void deauthorisationPlayer(List<Logging> loggingList, Player player)  {
-
+    public Logging deauthorisationPlayer(List<Logging> loggingList, Player player)  {
+        Logging logging;
        try {
-           loggingList.add(
-                   new Logging
-                           (player.getId(), Logging.TypeOperation.SUCCES_DEAUTH));
+           logging = new Logging(player.getId(), Logging.TypeOperation.SUCCES_DEAUTH);
            System.out.println("Вы успешно деавторизованы. \n");
-
+           return logging;
        } catch (DeauthorisationException e) {
-           loggingList.add(
-                   new Logging
-                           (player.getId(), Logging.TypeOperation.FAIL_DEAUTH));
-           throw new DeauthorisationException("Ошибка деавторизации." +
-                   " Запущена принудительная деавторизация ");
+           logging = new Logging(player.getId(), Logging.TypeOperation.FAIL_DEAUTH);
+           System.out.println("Произошла ошибка. Запущена принудительная деавторизация.");
+           System.out.println("Вы успешно деавторизованы. \n");
+           return logging;
        }
     }
 }
