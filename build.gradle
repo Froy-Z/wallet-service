@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+}
+
+ext {
+    lombokVersion = '1.18.22'
+    junitVersion = '5.8.1'
+    jdbcVersion = '42.6.0'
+}
+
+group 'ru.ylab'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.projectlombok:lombok:${lombokVersion}"
+    implementation group: 'org.postgresql', name: 'postgresql', version: "${jdbcVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'ru.ylab.Main'
+        )
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
