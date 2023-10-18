@@ -2,20 +2,24 @@ package ru.ylab.services;
 
 import ru.ylab.exceptions.DeauthorisationException;
 import ru.ylab.exceptions.InvalidCredentialException;
+import ru.ylab.in.factories.LoggingFactory;
 import ru.ylab.interfaces.PlayerInterface;
 import ru.ylab.models.Logging;
 import ru.ylab.models.Player;
 
 import java.util.List;
-import java.util.Map;
+
 public class PlayerService implements PlayerInterface {
 
+    LoggingFactory loggingFactory;
+
     /**
-     *  Поиск уже существующих игроков по логину, запись в переменную player
+     * Поиск уже существующих игроков по логину, запись в переменную player
+     *
      * @param playerList лист для поиска существующих игроков;
-     * @param login переменная от пользователя
+     * @param login      переменная от пользователя
      * @return найденный игрок или throw если игрок не найден
-     * @throws InvalidCredentialException если login не найден в коллекции записей.
+     * @throws InvalidCredentialException пробрасывание исключения
      */
     public Player searchPlayer(List<Player> playerList, String login) throws InvalidCredentialException {
         return playerList.stream()
@@ -33,56 +37,69 @@ public class PlayerService implements PlayerInterface {
 
     /**
      * Авторизация
-     *
-     * @param credentials map-коллекция существующих учётных данных
-     * @param loggingList коллекция истории действий игроков для записи
-     * @param player      игрок, с которым будет вестись взаимодействие
+     * @param player      игрок для авторизации
      * @param login       логин введённый игроком
-     * @param password    - пароль введённый игроком
+     * @param password    пароль введённый игроком
      * @return лог выполнения
      * @throws InvalidCredentialException неверный логин или пароль
      */
     @Override
-    public Logging authorisationPlayer(Map<String, String> credentials, List<Logging> loggingList,
-                                       Player player, String login, String password) throws InvalidCredentialException {
+    public Logging authorisationPlayer(Player player, String login, String password) throws InvalidCredentialException {
 
-        Long playerId = player.getId();
+        String loginVerification = player.getLogin();
+        String passwordVerification = player.getPassword();
         Logging logging;
-        if (credentials.containsKey(login)) {
-            if (credentials.get(login).equals(password)) {
-                logging = new Logging(playerId, Logging.TypeOperation.SUCCES_AUTH);
+
+        if(login.equals(loginVerification)) { // если логин верен
+
+            if(password.equals(passwordVerification)) { // если пароль верен
+                logging = loggingFactory.makeLog(player, Logging.TypeOperation.SUCCES_AUTH);
                 System.out.println("Успешная авторизация. \n");
                 return logging;
-            } else {
-                loggingList.add(new Logging(playerId, Logging.TypeOperation.FAIL_AUTH));
+            } else { // пароль не верен
                 throw new InvalidCredentialException("Неверный пароль, попробуйте еще раз.");
             }
-        } else {
-            loggingList.add(new Logging(playerId, Logging.TypeOperation.FAIL_AUTH));
+        } else { // логин не верен
             throw new InvalidCredentialException("Неверный логин, попробуйте еще раз.");
         }
     }
 
     /**
-     * Деавторизация
-     *
-     * @param loggingList коллекция истории действий игроков для записи
-     * @param player      игрок для деавторизации
+     * Деавторизация игрока
+     * @param player игрок для деавторизации
      * @return лог выполнения
      * @throws DeauthorisationException неизвестная ошибка при деавторизации, принудительная деавторизация
      */
     @Override
-    public Logging deauthorisationPlayer(List<Logging> loggingList, Player player)  {
+    public Logging deauthorisationPlayer(Player player) {
         Logging logging;
-       try {
-           logging = new Logging(player.getId(), Logging.TypeOperation.SUCCES_DEAUTH);
-           System.out.println("Вы успешно деавторизованы. \n");
-           return logging;
-       } catch (DeauthorisationException e) {
-           logging = new Logging(player.getId(), Logging.TypeOperation.FAIL_DEAUTH);
-           System.out.println("Произошла ошибка. Запущена принудительная деавторизация.");
-           System.out.println("Вы успешно деавторизованы. \n");
-           return logging;
-       }
+        try {
+            logging = loggingFactory.makeLog(player, Logging.TypeOperation.SUCCES_DEAUTH);
+            System.out.println("Вы успешно деавторизованы. \n");
+            return logging;
+        } catch (DeauthorisationException e) {
+            logging = loggingFactory.makeLog(player, Logging.TypeOperation.FAIL_DEAUTH);
+            System.out.println("Произошла ошибка. Запущена принудительная деавторизация.");
+            System.out.println("Вы успешно деавторизованы. \n");
+            return logging;
+        }
+    }
+
+
+    /**
+     * Проверка логина на незанятость
+     * @param playerList выгруженный список игроков для сравнения логинов
+     * @param login логин ведённый пользователем
+     * @throws InvalidCredentialException пробрасывание ошибки, если такой логин уже существует (занят)
+     */
+    public void checkLogin(List<Player> playerList, String login) throws InvalidCredentialException {
+        boolean loginExists = playerList.stream()
+                .anyMatch(player -> player.getLogin().equals(login));
+
+        if (loginExists) {
+            throw new InvalidCredentialException(
+                    String.format("Логин %s уже занят. \n", login)
+            );
+        }
     }
 }

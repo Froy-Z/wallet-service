@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+
+    <!-- Вычисление максимального id в таблице players и создание последовательности id из players таблицы -->
+    <changeSet id="12" author="Froy-Z">
+        <sql>CREATE SEQUENCE ylab_service_schema.sequence_player_id
+            START WITH (
+                        SELECT COALESCE(MAX(players.id), 0) + 1
+                        FROM ylab_schema.players)
+              INCREMENT BY 1;</sql>
+    </changeSet>
+
+    <changeSet id="После добавления данных в таблицу accounts" author="Froy-Z">
+        <sql>CREATE SEQUENCE ylab_service_schema.sequence_accounts_id
+            START WITH (
+                        SELECT COALESCE(MAX(accounts.id), 0) + 1
+                        FROM ylab_service_schema.accounts)
+              INCREMENT BY 1;</sql>
+    </changeSet>
+
+    <changeSet id="После добавления данных в таблицу loggingies" author="Froy-Z">
+        <sql>CREATE SEQUENCE ylab_service_schema.sequence_loggingies_id
+            START WITH (
+                        SELECT COALESCE(MAX(loggingies.id), 0) + 1
+                        FROM ylab_schema.loggingies)
+              INCREMENT BY 1;</sql>
+    </changeSet>
+
+    <changeSet id="После добавления данных в таблицу transactions" author="Froy-Z">
+        <sql>CREATE SEQUENCE ylab_service_schema.sequence_transactions_id
+            START WITH (
+        SELECT COALESCE(MAX(transactions.id), 0) + 1
+        FROM ylab_schema.transactions)
+              INCREMENT BY 1;</sql>
+    </changeSet>
+
+</databaseChangeLog>

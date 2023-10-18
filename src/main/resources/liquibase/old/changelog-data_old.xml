@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <!-- Предварительные данные для таблицы players -->
+    <changeSet id="7" author="Froy-Z">
+        <loadData schemaName="ylab_schema" tableName="players" file="liquibase/csv/players.csv">
+            <column name="id" type="NUMERIC"/>
+            <column name="login" type="STRING"/>
+            <column name="password" type="STRING"/>
+        </loadData>
+    </changeSet>
+
+
+    <!-- Предварительные данные для таблицы accounts -->
+    <changeSet id="8" author="Froy-Z">
+        <loadData schemaName="ylab_schema" tableName="accounts" file="liquibase/csv/accounts.csv">
+            <column name="id" type="NUMERIC"/>
+            <column name="player_id" type="NUMERIC"/>
+            <column name="balance" type="DOUBLE PRECISION"/>
+        </loadData>
+    </changeSet>
+
+    <!-- Предварительные данные для таблицы loggingies -->
+    <changeSet id="9" author="Froy-Z">
+        <loadData schemaName="ylab_schema" tableName="loggingies" file="liquibase/csv/loggingies.csv">
+            <column name="id" type="NUMERIC"/>
+            <column name="player_id" type="NUMERIC"/>
+            <column name="execution_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="type" type="STRING"/>
+        </loadData>
+    </changeSet>
+
+    <!-- Предварительные данные для таблицы transactions -->
+    <changeSet id="10" author="Froy-Z">
+        <loadData schemaName="ylab_schema" tableName="transactions" file="liquibase/csv/transactions.csv">
+            <column name="id" type="NUMERIC"/>
+            <column name="player_id" type="NUMERIC"/>
+            <column name="account_id" type="NUMERIC"/>
+            <column name="transaction_uuid" type="UUID"/>
+            <column name="execution_time" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="amount" type="DOUBLE PRECISION"/>
+            <column name="type" type="STRING"/>
+        </loadData>
+    </changeSet>
+
+</databaseChangeLog>

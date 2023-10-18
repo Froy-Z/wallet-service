@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+
+    <!-- Таблица players -->
+    <changeSet id="7" author="Froy-Z">
+        <sql>
+        <![CDATA[
+            CREATE TABLE ylab_schema.players
+            (
+                id       SERIAL PRIMARY KEY,
+                login    VARCHAR(50) NOT NULL,
+                password VARCHAR(50) NOT NULL
+            );
+            ]]>
+    </sql>
+    </changeSet>
+
+
+    <!-- Таблица accounts -->
+    <changeSet id="8" author="Froy-Z">
+        <sql>
+        <![CDATA[
+            CREATE TABLE ylab_schema.accounts
+            (
+                id        SERIAL PRIMARY KEY,
+                player_id INTEGER          NOT NULL,
+                balance   DOUBLE PRECISION NOT NULL,
+                CONSTRAINT player_id FOREIGN KEY (player_id) REFERENCES ylab_schema.players (id)
+            );
+            ]]>
+    </sql>
+    </changeSet>
+
+
+    <!-- Таблица loggingies -->
+    <changeSet id="9" author="Froy-Z">
+        <sql>
+        <![CDATA[
+            CREATE TABLE ylab_schema.loggingies
+            (
+                id             SERIAL PRIMARY KEY,
+                player_id      INTEGER     NOT NULL,
+                execution_time TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+                "type"         VARCHAR(30) NOT NULL,
+                CONSTRAINT player_id FOREIGN KEY (player_id) REFERENCES ylab_schema.players (id)
+            );
+            ]]>
+    </sql>
+    </changeSet>
+
+
+    <!-- Таблица transactions -->
+    <changeSet id="10" author="Froy-Z">
+        <sql>
+        <![CDATA[
+            CREATE TABLE ylab_schema.transactions
+            (
+                id               SERIAL PRIMARY KEY,
+                player_id        INTEGER          NOT NULL,
+                account_id       INTEGER          NOT NULL,
+                transaction_uuid UUID,
+                execution_time   TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+                amount           DOUBLE PRECISION NOT NULL,
+                "type"           VARCHAR(30)      NOT NULL,
+                CONSTRAINT player_id FOREIGN KEY (player_id) REFERENCES ylab_schema.players (id),
+                CONSTRAINT account_id FOREIGN KEY (account_id) REFERENCES ylab_schema.accounts (id)
+            );
+            ]]>
+    </sql>
+    </changeSet>
+
+
+    <changeSet id="15" author="Froy-Z">
+        <sql>
+        <![CDATA[
+            DO
+            '
+            DECLARE
+                start_value INT;
+            BEGIN
+                SELECT COALESCE(MAX(id), 0) + 1 INTO start_value FROM ylab_schema.players;
+                start_value := start_value + 1;
+                EXECUTE ''ALTER SEQUENCE ylab_schema.players_id_seq RESTART WITH '' || start_value;
+            END';
+            ]]>
+
+    </sql>
+    </changeSet>
+
+
+    <changeSet id="16" author="Froy-Z">
+        <sql>
+        <![CDATA[
+            DO
+            '
+            DECLARE
+                start_value INT;
+            BEGIN
+                SELECT COALESCE(MAX(id), 0) + 1 INTO start_value FROM ylab_schema.accounts;
+                start_value := start_value + 1;
+                EXECUTE ''ALTER SEQUENCE ylab_schema.accounts_id_seq RESTART WITH '' || start_value;
+            END';
+            ]]>
+    </sql>
+    </changeSet>
+
+    <changeSet id="17" author="Froy-Z">
+        <sql>
+        <![CDATA[
+            DO
+            '
+            DECLARE
+                start_value INT;
+            BEGIN
+                SELECT COALESCE(MAX(id), 0) + 1 INTO start_value FROM ylab_schema.loggingies;
+                start_value := start_value + 1;
+                EXECUTE ''ALTER SEQUENCE ylab_schema.loggingies_id_seq RESTART WITH '' || start_value;
+            END';
+            ]]>
+    </sql>
+    </changeSet>
+
+    <changeSet id="18" author="Froy-Z">
+        <sql>
+        <![CDATA[
+            DO
+            '
+            DECLARE
+                start_value INT;
+            BEGIN
+                SELECT COALESCE(MAX(id), 0) + 1 INTO start_value FROM ylab_schema.transactions;
+                start_value := start_value + 1;
+                EXECUTE ''ALTER SEQUENCE ylab_schema.transactions_id_seq RESTART WITH '' || start_value;
+            END';
+            ]]>
+    </sql>
+    </changeSet>
+
+</databaseChangeLog>

@@ -3,9 +3,61 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
+  <component name="BookmarksViewState">
+    <option name="rewriteBookmarkType" value="true" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1dea7d2-013f-4380-807e-668e0952afdf" name="Changes" comment="Выполнение задачи №1">
+    <list default="true" id="c1dea7d2-013f-4380-807e-668e0952afdf" name="Changes" comment="1. Учтены прошлые замечания&#10;2. Проведена декомпозия&#10;3. Написаны JavaDoc комментарий&#10;4. Настроен docker-compose.yml и Dockerfile&#10;5. Переделана логика сохранения и загрузки данных из БД.&#10;6. Настроены миграции.&#10;&#10;Проект не готов к работе из-за непонимания как обновить sequences.&#10;&#10;Также не созданы автотесты.&#10;&#10;Предпринято множество попыток исправить логику присвоения id_seq">
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/in/factories/LoggingFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/out/DatabaseConnector.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/out/jdbc/JdbcAccount.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/out/jdbc/JdbcLogging.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/out/jdbc/JdbcPlayer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/out/jdbc/JdbcTransaction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/out/repositories/AccountRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/out/repositories/LoggingRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/out/repositories/PlayerRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/out/repositories/TransactionRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/liquibase.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/liquibase/changelog-data.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/liquibase/changelog-schema.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/liquibase/changelog-tables.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/liquibase/changelog.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/liquibase/old/changelog-data_old.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/liquibase/old/changelog-default-schema_old.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/ru/ylab/in/ConsoleInputHandlerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ylab/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ylab/exceptions/DeauthorisationException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/exceptions/DeauthorisationException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ylab/exceptions/InsufficientFundsException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/exceptions/InsufficientFundsException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ylab/exceptions/InvalidCredentialException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/exceptions/InvalidCredentialException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ylab/exceptions/NotFoundException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ylab/exceptions/NullPointerException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/exceptions/NullPointerException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ylab/in/ConsoleInputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/in/ConsoleInputHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ylab/in/factories/AccountFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/in/factories/AccountFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ylab/in/factories/PlayerFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/in/factories/PlayerFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ylab/in/factories/TransactionFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/in/factories/TransactionFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ylab/interfaces/AccountInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/interfaces/AccountInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ylab/interfaces/LoggingInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/interfaces/LoggingInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ylab/interfaces/PlayerInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/interfaces/PlayerInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ylab/interfaces/TransactionInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/interfaces/TransactionInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ylab/models/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/models/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ylab/models/Logging.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/models/Logging.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ylab/models/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/models/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ylab/models/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/models/Transaction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ylab/out/emptyFile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ylab/services/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/services/AccountService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ylab/services/LoggingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/services/LoggingService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ylab/services/PlayerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/services/PlayerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/ylab/services/TransactionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/ylab/services/TransactionService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,8 +90,12 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="wallet-service" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="wallet-service" type="f1a62948:ProjectNode" />
+                <item name="Run Configurations" type="7b0102dc:RunConfigurationsNode" />
               </path>
             </expand>
             <select />
@@ -52,22 +108,39 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Interface" />
         <option value="JUnit5 Test Class" />
+        <option value="Tag Library Descriptor" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="Froy-Z-Example-1" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="d574ec1d-df2e-42b1-b532-95a31a3db80e" />
+        <option name="url" value="git@github.com:Froy-Z/wallet-service.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectId" id="2WQyZFNdVheymkR9imvZkicYMRE" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -86,7 +159,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/vladislav/IdeaProjects/MyEducation&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/vladislav/IdeaProjects/coworking-test-project&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -95,46 +168,56 @@
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;android.project.structure&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;,
+      &quot;postgresql&quot;
+    ]
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/liquibase/csv" />
+      <recent name="$PROJECT_DIR$/docker" />
       <recent name="$PROJECT_DIR$/src/main/java/ru/ylab" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/liquibase" />
+      <recent name="$PROJECT_DIR$/src/main/resources/liquibase/old" />
+      <recent name="$PROJECT_DIR$/docker" />
+      <recent name="$PROJECT_DIR$/src/main/resources/liquibase/csv" />
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+    </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="ru.ylab.in" />
       <recent name="ru.ylab.in.factories" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="ru.ylab.exceptions" />
+      <recent name="ru.ylab.repositories.jdbc" />
+      <recent name="ru.ylab.repositories" />
       <recent name="ru.ylab.factories" />
     </key>
   </component>
-  <component name="RunManager" selected="JAR Application.wallet-service-1.0-SNAPSHOT.jar">
-    <configuration name="wallet-service [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="build" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ru.ylab.Main" />
+      <module name="wallet-service.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ru.ylab.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration name="wallet-service [dependencies]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
@@ -178,7 +261,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="wallet-service [testClasses]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="wallet-service [wrapper]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -189,7 +272,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="testClasses" />
+            <option value="wrapper" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -199,17 +282,33 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="wallet-service-1.0-SNAPSHOT.jar" type="JarApplication" temporary="true">
-      <option name="JAR_PATH" value="$PROJECT_DIR$/build/libs/wallet-service-1.0-SNAPSHOT.jar" />
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
+      <deployment type="dockerfile">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JAR Application.wallet-service-1.0-SNAPSHOT.jar" />
-        <item itemvalue="Gradle.wallet-service [build]" />
         <item itemvalue="Gradle.wallet-service [jar]" />
-        <item itemvalue="Gradle.wallet-service [testClasses]" />
         <item itemvalue="Gradle.wallet-service [dependencies]" />
+        <item itemvalue="Gradle.wallet-service [wrapper]" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
       </list>
     </recent_temporary>
   </component>
@@ -232,6 +331,13 @@
       <workItem from="1696940880502" duration="19263000" />
       <workItem from="1696963623941" duration="5356000" />
       <workItem from="1696968985467" duration="39260000" />
+      <workItem from="1697039156006" duration="730000" />
+      <workItem from="1697291483484" duration="1964000" />
+      <workItem from="1697298213676" duration="147593000" />
+      <workItem from="1697518356929" duration="9384000" />
+      <workItem from="1697566404260" duration="6815000" />
+      <workItem from="1697573337859" duration="29820000" />
+      <workItem from="1697620818141" duration="19234000" />
     </task>
     <task id="LOCAL-00001" summary="Выполнение задачи №1">
       <created>1697012180749</created>
@@ -247,7 +353,21 @@
       <option name="project" value="LOCAL" />
       <updated>1697012323448</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Выполнение задачи №1">
+      <created>1697013326271</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1697013326271</updated>
+    </task>
+    <task id="LOCAL-00004" summary="1. Исправлены нейминги интерфейсов;&#10;2. Проведена декомпозиция Main класса, улучшено восприятие кода и читаемость;">
+      <created>1697348687415</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1697348687415</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -266,7 +386,26 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Выполнение задачи №1" />
-    <option name="LAST_COMMIT_MESSAGE" value="Выполнение задачи №1" />
+    <MESSAGE value="1. Исправлены нейминги интерфейсов;&#10;2. Проведена декомпозиция Main класса, улучшено восприятие кода и читаемость;" />
+    <MESSAGE value="1. Учтены прошлые замечания&#10;2. Проведена декомпозия&#10;3. Написаны JavaDoc комментарий&#10;4. Настроен docker-compose.yml и Dockerfile&#10;5. Переделана логика сохранения и загрузки данных из БД.&#10;6. Настроены миграции.&#10;&#10;Проект не готов к работе из-за непонимания как обновить sequences.&#10;&#10;Также не созданы автотесты." />
+    <MESSAGE value="1. Учтены прошлые замечания&#10;2. Проведена декомпозия&#10;3. Написаны JavaDoc комментарий&#10;4. Настроен docker-compose.yml и Dockerfile&#10;5. Переделана логика сохранения и загрузки данных из БД.&#10;6. Настроены миграции.&#10;&#10;Проект не готов к работе из-за непонимания как обновить sequences.&#10;&#10;Также не созданы автотесты.&#10;&#10;Предпринято множество попыток исправить логику присвоения id_seq" />
+    <option name="LAST_COMMIT_MESSAGE" value="1. Учтены прошлые замечания&#10;2. Проведена декомпозия&#10;3. Написаны JavaDoc комментарий&#10;4. Настроен docker-compose.yml и Dockerfile&#10;5. Переделана логика сохранения и загрузки данных из БД.&#10;6. Настроены миграции.&#10;&#10;Проект не готов к работе из-за непонимания как обновить sequences.&#10;&#10;Также не созданы автотесты.&#10;&#10;Предпринято множество попыток исправить логику присвоения id_seq" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ru/ylab/Main.java</url>
+          <line>186</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ru/ylab/Main.java</url>
+          <line>187</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

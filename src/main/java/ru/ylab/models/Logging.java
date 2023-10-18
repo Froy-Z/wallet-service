@@ -1,18 +1,24 @@
 package ru.ylab.models;
 
-import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
+import java.sql.Timestamp;
+
+/**
+ * Класс сущности аудита, которая имеет свой порядковый номер ID,
+ * внешний ключ ID игрока, время исполнения операции и тип операции в enum
+ */
+@Data
+@AllArgsConstructor
 public class Logging {
+    private Long id;
+    private Long playerId;
+    private Timestamp executionTime;
+    private TypeOperation type;
 
-    private final Long playerId;
-    private final LocalDateTime executionTime = LocalDateTime.now();
-    private final TypeOperation type;
-
-    public Logging(Long playerId , TypeOperation type) {
-        this.playerId = playerId;
-        this.type = type;
-    }
     public enum TypeOperation {
+        SUCCES_REGISTRATION,
         SUCCES_AUTH,
         FAIL_AUTH,
         SUCCES_CREATION_ACCOUNT,
@@ -23,18 +29,7 @@ public class Logging {
         FAIL_CREDIT,
         SUCCES_DEAUTH,
         FAIL_DEAUTH,
-        VIEW_AUDIT_SUCCES,
-        VIEW_AUDIT_FAIL
+        SUCCES_VIEW_AUDIT,
+        FAIL_VIEW_AUDIT
     }
-
-    public Long getPlayerId() {
-        return playerId;
-    }
-    public LocalDateTime getExecutionTime() {
-        return executionTime;
-    }
-    public TypeOperation getType() {
-        return type;
-    }
-
 }

@@ -1,10 +1,14 @@
 package ru.ylab.interfaces;
 
-import ru.ylab.models.Player;
-import ru.ylab.models.Transaction;
+import ru.ylab.models.Account;
 
-import java.util.List;
-
+/**
+ * Интерфейс для печати транзакций.
+ */
 public interface TransactionInterface {
-    void printTransaction(List<Transaction> transactionList, Player player);
+    /**
+     * Печать всех транзакций, с указанием времени и типа операции.
+     * @param account счёт (кошелёк), история которого будет выведена в консоль
+     */
+    void printTransaction(Account account) ;
 }

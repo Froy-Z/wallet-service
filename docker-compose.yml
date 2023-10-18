@@ -1,0 +1,14 @@
+version: '3'
+services:
+  casino-db:
+    image: postgres:latest
+    container_name: container_db
+    ports:
+      - "2345:5432"
+    environment:
+      POSTGRES_DB: ylab_db
+      POSTGRES_USER: ylab
+      POSTGRES_PASSWORD: 123456
+    restart: always
+    volumes:
+      - ./docker/pg_data:/var/lib/postgres/data

@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
+/**
+ * Класс взаимодействия игроков посредством консольного ввода.
+ */
 public class ConsoleInputHandler {
     /**
      * Консольное выполнение строковых запросов пользователя

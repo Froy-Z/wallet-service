@@ -2,10 +2,20 @@ plugins {
     id 'java'
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+wrapper {
+    gradleVersion = '7.3'
+}
+
 ext {
-    lombokVersion = '1.18.22'
-    junitVersion = '5.8.1'
+    lombokVersion = '1.18.26'
+    junitVersion = '5.9.2'
     jdbcVersion = '42.6.0'
+    liquibaseVersion = '4.24.0'
 }
 
 group 'ru.ylab'
@@ -16,8 +26,11 @@ repositories {
 }
 
 dependencies {
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     implementation "org.projectlombok:lombok:${lombokVersion}"
     implementation group: 'org.postgresql', name: 'postgresql', version: "${jdbcVersion}"
+    implementation group: 'org.liquibase', name: 'liquibase-core', version: "${liquibaseVersion}"
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
 }

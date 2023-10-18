@@ -1,10 +1,14 @@
 package ru.ylab.interfaces;
 
-import ru.ylab.models.Logging;
 import ru.ylab.models.Player;
 
-import java.util.List;
-
+/**
+ * Интерфейс для работы с аудитом игроков в системе.
+ */
 public interface LoggingInterface {
-    void printLogs(List<Logging> loggingList, Player player);
+    /**
+     * Метод выводит аудит игрока в консоль.
+     * @param player игрок, для которого выводится аудит
+     */
+    void printLogs(Player player);
 }
