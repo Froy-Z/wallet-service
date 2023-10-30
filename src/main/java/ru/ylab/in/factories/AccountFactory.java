@@ -3,6 +3,8 @@ package ru.ylab.in.factories;
 import ru.ylab.models.Account;
 import ru.ylab.models.Player;
 
+import java.math.BigDecimal;
+
 
 /**
  * Класс фабрика для создания объектов типа Account (кошелёк).
@@ -17,6 +19,6 @@ public class AccountFactory {
      */
     public Account makeAccount(Player player) {
         Long playerId = player.getId();
-        return new Account(null, playerId, 0.00);
+        return new Account(playerId, new BigDecimal("0.00"));
     }
 }

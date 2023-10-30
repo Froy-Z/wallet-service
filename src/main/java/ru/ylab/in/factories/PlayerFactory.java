@@ -15,6 +15,6 @@ public class PlayerFactory {
      * паролем для доступа в систему и личного кошельку
      */
     public Player makePlayer(String login, String password) {
-        return new Player(null, login, password);
+        return new Player(login, password);
     }
 }

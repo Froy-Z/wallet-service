@@ -1,8 +1,8 @@
 package ru.ylab.services;
 
+import ru.ylab.exceptions.BalanceChangeFailedException;
 import ru.ylab.exceptions.InsufficientFundsException;
 import ru.ylab.in.factories.LoggingFactory;
-import ru.ylab.in.factories.TransactionFactory;
 import ru.ylab.interfaces.AccountInterface;
 import ru.ylab.models.Account;
 import ru.ylab.models.Logging;
@@ -11,7 +11,10 @@ import ru.ylab.models.Transaction;
 import ru.ylab.out.DatabaseConnector;
 import ru.ylab.out.jdbc.JdbcAccount;
 import ru.ylab.out.jdbc.JdbcTransaction;
+import ru.ylab.out.repositories.AccountRepository;
+import ru.ylab.out.repositories.TransactionRepository;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -23,14 +26,14 @@ import java.util.List;
  */
 public class AccountService implements AccountInterface {
     private final LoggingFactory loggingFactory = new LoggingFactory();
-    private final TransactionFactory transactionFactory = new TransactionFactory();
-    private JdbcAccount jdbcAccount;
-    private JdbcTransaction jdbcTransaction;
+    private final TransactionService transactionService = new TransactionService();
+    private AccountRepository accountRepository;
 
     /**
      * Поиск счёта игрока
+     *
      * @param accountList список всех счетов всех игроков
-     * @param player игрок, чей кошелёк ищем
+     * @param player      игрок, чей кошелёк ищем
      * @return кошелёк игрока или null
      */
     public Account searchAccountPlayer(List<Account> accountList, Player player) {
@@ -43,106 +46,86 @@ public class AccountService implements AccountInterface {
 
     /**
      * Печать в консоль текущего баланса игрока
+     *
      * @param balance валидный баланс игрока
      */
     @Override
-    public void printAccountBalance(double balance) {
+    public void printAccountBalance(BigDecimal balance) {
         System.out.printf("Счёт %.2f у.е. \n", balance);
     }
 
     /**
      * Кредитовая операция по пополнению баланса кошелька игрока.
      *
-     * @param player игрок для ведения логирования
+     * @param player  игрок для ведения логирования
      * @param account кошелёк игрока
      * @param amount  сумма к исполнению
      * @return лог о результате операции
      * @throws UnknownError если происходит неизвестная ошибка во время операции
      */
     @Override
-    public Logging performCreditTransaction(Player player, Account account, double amount) throws UnknownError {
-        try (Connection connection = DatabaseConnector.getConnection()){
-            jdbcAccount = new JdbcAccount(connection); // соединение с БД для работы с кошельками
-            jdbcTransaction = new JdbcTransaction(connection); // соединение с БД для работы с транзакциями
-            performCredit(account, amount);
-            System.out.printf("Баланс пополнен на %.2f y.e. \n", amount);
-            return loggingFactory.makeLog(player, Logging.TypeOperation.SUCCES_CREDIT);
-        } catch (SQLException e) {
-            System.out.println(("Выполнение прервано из-за ошибки. Операция отменена."));
-            return loggingFactory.makeLog(player, Logging.TypeOperation.FAIL_DEBIT);
+    public Logging performOperation(Player player, Account account, BigDecimal amount, String type) throws InsufficientFundsException, SQLException {
+        Long transactionId = null;
+        Connection connection = null;
+        try {
+            if (type.equals("credit")) {
+                transactionId = transactionService.conductingTransaction(account, amount, Transaction.TypeOperation.CREDIT); // создание транзакции и сохранение в БД
+                return performCreditOperation(player, account, amount);
+            } else {
+                checkSufficientFunds(account, amount); // проверка достаточности средств
+                transactionId = transactionService.conductingTransaction(account, amount, Transaction.TypeOperation.DEBIT); // создание транзакции и сохранение в БД
+                return performDebitOperation(player, account, amount);
+            }
+        } catch (BalanceChangeFailedException | SQLException e) {
+            connection = DatabaseConnector.getConnection();
+            TransactionRepository transactionRepository = new JdbcTransaction(connection);
+            transactionRepository.delete(transactionId); // удаление транзакции в случае ошибок
+            return null;
+        } finally {
+            if(connection != null) {
+                connection.close();
+            }
         }
     }
 
-    /**
-     * Дебетовая операция по снятию денежных средств с баланса кошелька игрока.
-     *
-     * @param player игрок для ведения логирования
-     * @param account кошелёк игрока
-     * @param amount  сумма к исполнению
-     * @return лог о результате операции
-     * @throws InsufficientFundsException обработка исключения недостаточности средств на счету игрока
-     */
     @Override
-    public Logging performDebitTransaction(Player player, Account account, double amount) throws RuntimeException {
-
+    public Logging performCreditOperation(Player player, Account account, BigDecimal amount) throws SQLException {
         try (Connection connection = DatabaseConnector.getConnection()) {
-            jdbcAccount = new JdbcAccount(connection); // соединение с БД для работы с кошельками
-            jdbcTransaction = new JdbcTransaction(connection); // соединение с БД для работы с транзакциями
-
-            if (checkSufficientFunds(account.getBalance(), amount)) {
-                performDebit(account, amount);
-                System.out.printf("Списано со счёта %.2f y.e. \n", amount);
-                return loggingFactory.makeLog(player, Logging.TypeOperation.SUCCES_DEBIT);
-            } else {
-                handleInsufficientFundsException(amount, account.getBalance());
-                return loggingFactory.makeLog(player, Logging.TypeOperation.FAIL_DEBIT);
-            }
-        } catch (InsufficientFundsException e) {
-            System.out.println(e.getMessage());
-            return loggingFactory.makeLog(player, Logging.TypeOperation.FAIL_DEBIT);
+            accountRepository = new JdbcAccount(connection);
+            accountRepository.addAmount(account.getId(), amount); // пополнение баланса
         } catch (SQLException e) {
-            System.out.println(("Выполнение прервано из-за ошибки. Операция отменена."));
-            return loggingFactory.makeLog(player, Logging.TypeOperation.FAIL_DEBIT);
+            throw new RuntimeException();
         }
+        System.out.printf("Баланс пополнен на %.2f y.e. \n", amount);
+        return loggingFactory.makeLog(player, Logging.TypeOperation.SUCCES_CREDIT);
+    }
+
+    @Override
+    public Logging performDebitOperation(Player player, Account account, BigDecimal amount) throws SQLException {
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            accountRepository = new JdbcAccount(connection);
+            accountRepository.deductAmount(account.getId(), amount); // списание с баланса
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
+        System.out.printf("С баланса списано %.2f y.e. \n", amount);
+        return loggingFactory.makeLog(player, Logging.TypeOperation.SUCCES_DEBIT);
     }
 
     /**
      * Проверка баланса на возможность снятия
-     * @param balance баланс игрока
-     * @param amount сумма к списанию
-     * @return булево значение
      */
-    private boolean checkSufficientFunds(double balance, double amount) {
-        return balance >= amount;
+    private void checkSufficientFunds(Account account, BigDecimal amount) throws InsufficientFundsException, SQLException {
+        BigDecimal balance;
+        try (Connection connection = DatabaseConnector.getConnection()){
+            accountRepository = new JdbcAccount(connection);
+            balance = accountRepository.findBalanceById(account.getId());
+            if (balance.doubleValue() < amount.doubleValue()) {
+                throw new InsufficientFundsException("Не хватает средств для выполнения операции.");
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Ошибка соединения с БД для получения баланса.");
+        }
     }
 
-    /**
-     * Выполнение операции снятия с баланса
-     * @param account кошелёк игрока
-     * @param amount сумма к списанию
-     */
-    private void performDebit(Account account, double amount) {
-        jdbcAccount.deductAmount(account.getId(), amount);
-        jdbcTransaction.save(transactionFactory.makeTransaction(account, amount, Transaction.TypeOperation.SUCCES_DEBIT));
-    }
-
-    private void performCredit(Account account, double amount) {
-        jdbcAccount.addAmount(account.getId(), amount);
-        jdbcTransaction.save(transactionFactory.makeTransaction(account, amount, Transaction.TypeOperation.SUCCES_DEBIT));
-    }
-
-    /**
-     * Обработка разницы числового выражения
-     * @param amount сумма к списанию
-     * @param balance баланс игрока
-     * @throws InsufficientFundsException пробрасывание исключения недостаточности средств
-     */
-    private void handleInsufficientFundsException(double amount, double balance) throws InsufficientFundsException {
-        double requiredAmount = Math.round((amount - balance) * 100.0) / 100.0;
-        throw new InsufficientFundsException(
-                String.format(
-                        "Недостаточно средств. Уменьшите запрашиваемую сумму минимум на %.2f y.e. \n",
-                        requiredAmount)
-        );
-    }
 }

@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface LoggingRepository {
     void save(Logging logging);
-    List<Logging> findAllLoggingPlayer(Player player);
+    List<Logging> findAllLogsPlayer(Player player);
 }

@@ -7,138 +7,93 @@
 
 
     <!-- Таблица players -->
-    <changeSet id="7" author="Froy-Z">
-        <sql>
-        <![CDATA[
-            CREATE TABLE ylab_schema.players
-            (
-                id       SERIAL PRIMARY KEY,
-                login    VARCHAR(50) NOT NULL,
-                password VARCHAR(50) NOT NULL
-            );
-            ]]>
-    </sql>
+    <changeSet id="6" author="Froy-Z">
+        <createTable tableName="players" schemaName="ylab_schema">
+            <column name="id" type="BIGINT" defaultValueComputed="nextval('ylab_schema.players_id_seq')">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="login" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
     </changeSet>
 
 
     <!-- Таблица accounts -->
-    <changeSet id="8" author="Froy-Z">
-        <sql>
-        <![CDATA[
-            CREATE TABLE ylab_schema.accounts
-            (
-                id        SERIAL PRIMARY KEY,
-                player_id INTEGER          NOT NULL,
-                balance   DOUBLE PRECISION NOT NULL,
-                CONSTRAINT player_id FOREIGN KEY (player_id) REFERENCES ylab_schema.players (id)
-            );
-            ]]>
-    </sql>
+    <changeSet id="7" author="Froy-Z">
+        <createTable tableName="accounts" schemaName="ylab_schema">
+            <column name="id" type="BIGINT" defaultValueComputed="nextval('ylab_schema.accounts_id_seq')">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="player_id" type="BIGINT">
+                <constraints foreignKeyName="player_id"
+                             referencedTableSchemaName="ylab_schema"
+                             referencedTableName="players"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="balance" type="DECIMAL(14,2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
     </changeSet>
 
 
     <!-- Таблица loggingies -->
-    <changeSet id="9" author="Froy-Z">
-        <sql>
-        <![CDATA[
-            CREATE TABLE ylab_schema.loggingies
-            (
-                id             SERIAL PRIMARY KEY,
-                player_id      INTEGER     NOT NULL,
-                execution_time TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-                "type"         VARCHAR(30) NOT NULL,
-                CONSTRAINT player_id FOREIGN KEY (player_id) REFERENCES ylab_schema.players (id)
-            );
-            ]]>
-    </sql>
+    <changeSet id="8" author="Froy-Z">
+        <createTable tableName="loggingies" schemaName="ylab_schema">
+            <column name="id" type="BIGINT" defaultValueComputed="nextval('ylab_schema.loggingies_id_seq')">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="player_id" type="BIGINT">
+                <constraints foreignKeyName="player_id"
+                             referencedTableSchemaName="ylab_schema"
+                             referencedTableName="players"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="execution_time" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
     </changeSet>
 
 
     <!-- Таблица transactions -->
-    <changeSet id="10" author="Froy-Z">
-        <sql>
-        <![CDATA[
-            CREATE TABLE ylab_schema.transactions
-            (
-                id               SERIAL PRIMARY KEY,
-                player_id        INTEGER          NOT NULL,
-                account_id       INTEGER          NOT NULL,
-                transaction_uuid UUID,
-                execution_time   TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-                amount           DOUBLE PRECISION NOT NULL,
-                "type"           VARCHAR(30)      NOT NULL,
-                CONSTRAINT player_id FOREIGN KEY (player_id) REFERENCES ylab_schema.players (id),
-                CONSTRAINT account_id FOREIGN KEY (account_id) REFERENCES ylab_schema.accounts (id)
-            );
-            ]]>
-    </sql>
-    </changeSet>
-
-
-    <changeSet id="15" author="Froy-Z">
-        <sql>
-        <![CDATA[
-            DO
-            '
-            DECLARE
-                start_value INT;
-            BEGIN
-                SELECT COALESCE(MAX(id), 0) + 1 INTO start_value FROM ylab_schema.players;
-                start_value := start_value + 1;
-                EXECUTE ''ALTER SEQUENCE ylab_schema.players_id_seq RESTART WITH '' || start_value;
-            END';
-            ]]>
-
-    </sql>
-    </changeSet>
-
-
-    <changeSet id="16" author="Froy-Z">
-        <sql>
-        <![CDATA[
-            DO
-            '
-            DECLARE
-                start_value INT;
-            BEGIN
-                SELECT COALESCE(MAX(id), 0) + 1 INTO start_value FROM ylab_schema.accounts;
-                start_value := start_value + 1;
-                EXECUTE ''ALTER SEQUENCE ylab_schema.accounts_id_seq RESTART WITH '' || start_value;
-            END';
-            ]]>
-    </sql>
-    </changeSet>
-
-    <changeSet id="17" author="Froy-Z">
-        <sql>
-        <![CDATA[
-            DO
-            '
-            DECLARE
-                start_value INT;
-            BEGIN
-                SELECT COALESCE(MAX(id), 0) + 1 INTO start_value FROM ylab_schema.loggingies;
-                start_value := start_value + 1;
-                EXECUTE ''ALTER SEQUENCE ylab_schema.loggingies_id_seq RESTART WITH '' || start_value;
-            END';
-            ]]>
-    </sql>
-    </changeSet>
-
-    <changeSet id="18" author="Froy-Z">
-        <sql>
-        <![CDATA[
-            DO
-            '
-            DECLARE
-                start_value INT;
-            BEGIN
-                SELECT COALESCE(MAX(id), 0) + 1 INTO start_value FROM ylab_schema.transactions;
-                start_value := start_value + 1;
-                EXECUTE ''ALTER SEQUENCE ylab_schema.transactions_id_seq RESTART WITH '' || start_value;
-            END';
-            ]]>
-    </sql>
+    <changeSet id="9" author="Froy-Z">
+        <createTable tableName="transactions" schemaName="ylab_schema">
+            <column name="id" type="BIGINT" defaultValueComputed="nextval('ylab_schema.transactions_id_seq')">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="player_id" type="BIGINT">
+                <constraints foreignKeyName="player_id"
+                             referencedTableSchemaName="ylab_schema"
+                             referencedTableName="players"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="account_id" type="BIGINT">
+                <constraints foreignKeyName="account_id"
+                             referencedTableSchemaName="ylab_schema"
+                             referencedTableName="accounts"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="transaction_uuid" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="execution_time" type="TIMESTAMP WITHOUT TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="DECIMAL(14,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
     </changeSet>
 
 </databaseChangeLog>

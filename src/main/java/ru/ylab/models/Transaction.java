@@ -1,8 +1,8 @@
 package ru.ylab.models;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 /**
@@ -11,19 +11,26 @@ import java.sql.Timestamp;
  * сумма к исполнению и тип операции, выраженный в Enum.
  */
 @Data
-@AllArgsConstructor
 public class Transaction {
     private Long id;
     private Long playerId;
     private Long accountId;
     private String transactionId;
     private Timestamp executeTime;
-    private double amount;
+    private BigDecimal amount;
     private TypeOperation type;
+
+    public Transaction(Long playerId, Long accountId, String transactionId, Timestamp executeTime, BigDecimal amount, TypeOperation type) {
+        this.playerId = playerId;
+        this.accountId = accountId;
+        this.transactionId = transactionId;
+        this.executeTime = executeTime;
+        this.amount = amount;
+        this.type = type;
+    }
+
     public enum TypeOperation {
-        SUCCES_DEBIT,
-        FAIL_DEBIT,
-        SUCCES_CREDIT,
-        FAIL_CREDIT
+        DEBIT,
+        CREDIT
     }
 }

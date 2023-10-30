@@ -16,6 +16,7 @@ ext {
     junitVersion = '5.9.2'
     jdbcVersion = '42.6.0'
     liquibaseVersion = '4.24.0'
+    hikariVersion = '5.0.1'
 }
 
 group 'ru.ylab'
@@ -31,6 +32,7 @@ dependencies {
     implementation "org.projectlombok:lombok:${lombokVersion}"
     implementation group: 'org.postgresql', name: 'postgresql', version: "${jdbcVersion}"
     implementation group: 'org.liquibase', name: 'liquibase-core', version: "${liquibaseVersion}"
+    implementation "com.zaxxer:HikariCP:${hikariVersion}"
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
 }

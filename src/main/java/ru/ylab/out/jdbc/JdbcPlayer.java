@@ -23,8 +23,8 @@ public class JdbcPlayer implements PlayerRepository {
      * @param player объект-игрок, переданный методу для сохранения.
      */
     @Override
-    public void save(Player player) {
-        String sql = "INSERT INTO ylab_schema.players (login, password) VALUES (?, ?)";
+    public Long save(Player player) {
+        String sql = "INSERT INTO ylab_schema.players (id, login, password) VALUES (nextval('ylab_schema.players_id_seq'),?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, player.getLogin());
@@ -38,8 +38,7 @@ public class JdbcPlayer implements PlayerRepository {
 
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    long id = generatedKeys.getLong(1); // Получаем сгенерированный ID
-                    player.setId(id); // Устанавливаем ID игрока
+                    return generatedKeys.getLong(1); // возврат сгенерированного пследовательностью id игрока
                 } else {
                     throw new SQLException("Не удалось получить сгенерированный ключ.");
                 }
@@ -47,6 +46,7 @@ public class JdbcPlayer implements PlayerRepository {
         } catch (SQLException e) {
             e.printStackTrace(); // Логируем ошибку для дальнейшего анализа
         }
+        return null;
     }
 
     @Override
@@ -58,16 +58,14 @@ public class JdbcPlayer implements PlayerRepository {
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    Long id = resultSet.getLong("id");
                     String login = resultSet.getString("login");
                     String password = resultSet.getString("password");
-                    return new Player(id, login, password);
+                    return new Player(login, password);
                 }
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-
         return null;
     }
 

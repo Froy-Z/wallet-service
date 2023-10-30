@@ -1,6 +1,5 @@
 package ru.ylab.models;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -10,12 +9,17 @@ import java.sql.Timestamp;
  * внешний ключ ID игрока, время исполнения операции и тип операции в enum
  */
 @Data
-@AllArgsConstructor
 public class Logging {
     private Long id;
     private Long playerId;
     private Timestamp executionTime;
     private TypeOperation type;
+
+    public Logging(Long playerId, Timestamp executionTime, TypeOperation type) {
+        this.playerId = playerId;
+        this.executionTime = executionTime;
+        this.type = type;
+    }
 
     public enum TypeOperation {
         SUCCES_REGISTRATION,

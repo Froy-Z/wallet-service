@@ -3,6 +3,7 @@ package ru.ylab.out.jdbc;
 import ru.ylab.models.Account;
 import ru.ylab.out.repositories.AccountRepository;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,13 +25,13 @@ public class JdbcAccount implements AccountRepository {
      * @param account объект-счёт(кошелёк), переданный методу для сохранения.
      */
     @Override
-    public void save(Account account) {
+    public Long save(Account account) {
         String sql = "INSERT INTO ylab_schema.accounts (id, player_id, balance) " +
-                "VALUES (nextval('accounts_id_seq'), ?, ?)";
+                "VALUES (nextval('ylab_schema.accounts_id_seq'), ?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             statement.setLong(1, account.getPlayerId());
-            statement.setDouble(2, account.getBalance());
+            statement.setBigDecimal(2, account.getBalance());
 
             int affectedRows = statement.executeUpdate();
 
@@ -39,19 +40,22 @@ public class JdbcAccount implements AccountRepository {
             }
 
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                if (!generatedKeys.next()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getLong(1);
+                } else {
                     throw new SQLException("Не удалось получить сгенерированный ключ.");
                 }
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
+        return null;
     }
-    public void addAmount(Long accountId, double amount) {
+    public void addAmount(Long accountId, BigDecimal amount) {
         String sql = "UPDATE ylab_schema.accounts SET balance = balance + ? WHERE id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setDouble(1, amount);
+            statement.setBigDecimal(1, amount);
             statement.setLong(2, accountId);
 
             int affectedRows = statement.executeUpdate();
@@ -60,15 +64,15 @@ public class JdbcAccount implements AccountRepository {
                 throw new SQLException("Произошла ошибка при попытке пополнить баланс.");
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 
-    public void deductAmount(Long accountId, double amount) {
+    public void deductAmount(Long accountId, BigDecimal amount) {
         String sql = "UPDATE ylab_schema.accounts SET balance = balance - ? WHERE id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setDouble(1, amount);
+            statement.setBigDecimal(1, amount);
             statement.setLong(2, accountId);
 
             int affectedRows = statement.executeUpdate();
@@ -77,7 +81,7 @@ public class JdbcAccount implements AccountRepository {
                 throw new SQLException("Произошла ошибка при попытке снять средства с баланса.");
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 
@@ -88,9 +92,8 @@ public class JdbcAccount implements AccountRepository {
             statement.setLong(1, accountId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    Long playerId = resultSet.getLong("player_id");
-                    double balance = resultSet.getDouble("balance");
-                    Account account = new Account(accountId, playerId, balance);
+                    BigDecimal balance = resultSet.getBigDecimal("balance");
+                    Account account = new Account(accountId, balance);
                     account.setBalance(balance);
                     return account;
                 }
@@ -101,16 +104,18 @@ public class JdbcAccount implements AccountRepository {
         return null;
     }
 
-    public double findBalanceById(Long accountId) throws RuntimeException, SQLException {
+    public BigDecimal findBalanceById(Long accountId) throws RuntimeException, SQLException {
         String sql = "SELECT balance FROM ylab_schema.accounts WHERE id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, accountId);
             try (ResultSet resultSet = statement.executeQuery()) {
-                return resultSet.getDouble("balance");
+                if(resultSet.next()) {
+                    return resultSet.getBigDecimal("balance");
+                } else {
+                    throw new RuntimeException("Ошибка при получении баланса игрока из базы данных.");
+                }
             }
-        } catch (RuntimeException e) {
-            throw new RuntimeException("Ошибка при получении баланса игрока из базы данных.", e);
         } catch (SQLException e) {
             throw new SQLException("Произошла ошибка соединения с БД", e);
         }
@@ -123,12 +128,11 @@ public class JdbcAccount implements AccountRepository {
 
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
-
             while (resultSet.next()) {
                 Long id = resultSet.getLong("id");
-                Long player_id = resultSet.getLong("player_id");
-                double balance = resultSet.getDouble("balance");
-                accounts.add(new Account(id, player_id, balance));
+                Long playerId = resultSet.getLong("player_id");
+                BigDecimal balance = resultSet.getBigDecimal("balance");
+                accounts.add(new Account(id, playerId, balance));
             }
         } catch (SQLException e) {
             e.printStackTrace();

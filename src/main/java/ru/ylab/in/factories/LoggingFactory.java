@@ -12,13 +12,14 @@ import java.time.LocalDateTime;
 public class LoggingFactory {
     /**
      * Создание лога в реальном времени
+     *
      * @param player ведение аудита игроку
-     * @param type тип совершённой операции
+     * @param type   тип совершённой операции
      * @return лог для записи в БД
      */
     public Logging makeLog(Player player, Logging.TypeOperation type) {
         Long playerId = player.getId();
         Timestamp executeTime = Timestamp.valueOf(LocalDateTime.now());
-        return new Logging(null, playerId, executeTime, type);
+        return new Logging(playerId, executeTime, type);
     }
 }

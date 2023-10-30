@@ -6,7 +6,7 @@
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
 
     <!-- Ссылка на конфиг. файл создания схемы ylab_schema-->
-    <include file="/liquibase/changelog-schema.xml"/>
+    <include file="/liquibase/changelog-sequences.xml"/>
 
     <!-- Ссылка на конфиг. файл создания таблиц для ylab_schema -->
     <include file="/liquibase/changelog-tables.xml"/>

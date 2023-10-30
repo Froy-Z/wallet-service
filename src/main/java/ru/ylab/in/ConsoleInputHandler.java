@@ -2,7 +2,7 @@ package ru.ylab.in;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.text.DecimalFormat;
+import java.math.BigDecimal;
 
 /**
  * Класс взаимодействия игроков посредством консольного ввода.
@@ -19,7 +19,7 @@ public class ConsoleInputHandler {
             try {
                 System.out.println("Ввод: ");
                 String input = bufferedReader.readLine();
-                if (input != null && !input.trim().isEmpty()) {
+                if (!input.trim().isEmpty()) {
                     return input;
                 } else {
                     System.out.println("Ошибка: введённые данные не могут быть пустыми!");
@@ -37,26 +37,19 @@ public class ConsoleInputHandler {
      * @return корректное число для работы с балансом игрока
      */
 
-    public static double doubleUserInput(BufferedReader bufferedReader) {
-        Double input = 0.0;
-        boolean validInput = false;
-        while (!validInput) {
+    public static BigDecimal doubleUserInput(BufferedReader bufferedReader) {
+        while (true) {
             try {
                 System.out.println("Ввод: ");
-                input = Double.parseDouble(bufferedReader.readLine().trim());
-                validInput = true;
-                if (!input.isNaN()) {
-                    return input;
+                String userInput = bufferedReader.readLine().trim();
+                if (!userInput.isEmpty()) {
+                    return new BigDecimal(userInput);
                 } else {
-                    System.out.println("Ошибка: введённые данные не могут быть пустыми!");
+                    System.out.println("Ошибка ввода. Введённые данные не могут быть пустыми.");
                 }
             } catch (NumberFormatException | IOException e) {
-                System.out.println("Ошибка ввода. Пожалуйста, введите корректное число");
+                System.out.println("Ошибка ввода. Пожалуйста, введите корректное число.");
             }
         }
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
-        String formattedInput = decimalFormat.format(input);
-        return Double.parseDouble(formattedInput);
     }
-
 }

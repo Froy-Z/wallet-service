@@ -26,12 +26,12 @@ public class JdbcLogging implements LoggingRepository {
     @Override
     public void save(Logging logging) {
         String sql = "INSERT INTO ylab_schema.loggingies (id ,player_id, execution_time, type) " +
-                     "VALUES (nextval('loggingies_id_seq'), ?, ?, ?)";
+                     "VALUES (nextval('ylab_schema.loggingies_id_seq'), ?, ?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             statement.setLong(1, logging.getPlayerId());
             statement.setTimestamp(2, logging.getExecutionTime());
-            statement.setObject(3, logging.getType());
+            statement.setObject(3, logging.getType(), Types.OTHER);
 
             int affectedRows = statement.executeUpdate();
 
@@ -50,7 +50,7 @@ public class JdbcLogging implements LoggingRepository {
     }
 
     @Override
-    public List<Logging> findAllLoggingPlayer(Player player) {
+    public List<Logging> findAllLogsPlayer(Player player) {
         List<Logging> loggingies = new ArrayList<>();
         Long playerId = player.getId();
 
@@ -61,11 +61,10 @@ public class JdbcLogging implements LoggingRepository {
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    Long id = resultSet.getLong("id");
                     Timestamp executionTime = resultSet.getTimestamp("execution_time");
-                    Logging.TypeOperation type = (Logging.TypeOperation) resultSet.getObject("type");
+                    Logging.TypeOperation type = Logging.TypeOperation.valueOf(resultSet.getString("type"));
 
-                    loggingies.add(new Logging(id, playerId, executionTime, type));
+                    loggingies.add(new Logging(playerId, executionTime, type));
                 }
             }
         } catch (SQLException e) {

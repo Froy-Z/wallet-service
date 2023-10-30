@@ -1,11 +1,14 @@
 package ru.ylab.services;
 
+import ru.ylab.in.factories.TransactionFactory;
 import ru.ylab.interfaces.TransactionInterface;
 import ru.ylab.models.Account;
 import ru.ylab.models.Transaction;
 import ru.ylab.out.DatabaseConnector;
 import ru.ylab.out.jdbc.JdbcTransaction;
+import ru.ylab.out.repositories.TransactionRepository;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -13,7 +16,8 @@ import java.util.Comparator;
 import java.util.List;
 
 public class TransactionService implements TransactionInterface {
-    JdbcTransaction jdbcTransaction;
+    private final TransactionFactory transactionFactory = new TransactionFactory();
+    private TransactionRepository transactionRepository;
 
     /**
      * Вывод в консоль информации о денежных транзакциях игрока
@@ -24,8 +28,8 @@ public class TransactionService implements TransactionInterface {
         Long accountId = account.getId();
 
         try (Connection connection = DatabaseConnector.getConnection()) {
-            jdbcTransaction = new JdbcTransaction(connection);
-            List<Transaction> transactionList = jdbcTransaction.findAllTransactionsPlayer(playerId, accountId);
+            transactionRepository = new JdbcTransaction(connection);
+            List<Transaction> transactionList = transactionRepository.findAllTransactionsPlayer(playerId, accountId);
 
             if (!transactionList.isEmpty()) {
                 transactionList.stream()
@@ -33,7 +37,7 @@ public class TransactionService implements TransactionInterface {
                         .forEach(transaction -> {
                             Timestamp executionTime = transaction.getExecuteTime(); // получение времени исполнения
                             String operationType = transaction.getType().name(); // получение типа операции
-                            double amount = transaction.getAmount(); // получение суммы к исполнению по балансу
+                            BigDecimal amount = transaction.getAmount(); // получение суммы к исполнению по балансу
                             System.out.println("- Время выполнения: " + executionTime + ", Тип операции: " + operationType + ", Сумма: " + amount);
                         });
             } else {
@@ -41,6 +45,20 @@ public class TransactionService implements TransactionInterface {
             }
         } catch (SQLException e) {
             System.out.println("Произошла ошибка соединения с БД");
+        }
+    }
+
+    @Override
+    public Long conductingTransaction(Account account, BigDecimal amount, Transaction.TypeOperation typeOperation) throws RuntimeException, SQLException {
+        Transaction transaction;
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            transactionRepository = new JdbcTransaction(connection);
+            transaction = transactionFactory.makeTransaction(account, amount, typeOperation); // создание транзакции
+            return transactionRepository.save(transaction); // сохранение транзакции в БД
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Операция отменена. Ошибка при создании транзакции.");
+        } catch (SQLException e) {
+            throw new SQLException("Операция отменена. Ошибка соединения с БД.");
         }
     }
 }
